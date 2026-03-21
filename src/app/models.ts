@@ -14,3 +14,9 @@ export interface CalculationResult {
   bilateralValue: number;
   hasBilateralFactor: boolean;
 }
+
+export interface ReferenceInfo {
+  title: string;
+  description: string;
+  sourceUrl: string;
+}

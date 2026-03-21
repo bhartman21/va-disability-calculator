@@ -5,7 +5,7 @@
     <header class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <div class="flex items-center gap-2 text-zinc-500 mb-2">
-          <mat-icon class="text-sm">verified_user</mat-icon>
+          <i class="fa-solid fa-user-shield text-xs"></i>
           <span class="text-xs font-bold uppercase tracking-widest">Official Logic</span>
         </div>
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
@@ -25,7 +25,7 @@
       <div class="lg:col-span-1 space-y-6">
         <div class="card p-6">
           <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-            <mat-icon>add_circle_outline</mat-icon>
+            <i class="fa-regular fa-square-plus"></i>
             Add Condition
           </h2>
           
@@ -77,7 +77,7 @@
               [disabled]="!newName().trim()"
               (click)="addDisability()"
             >
-              <mat-icon>add</mat-icon>
+              <i class="fa-solid fa-plus mr-2"></i>
               Add to List
             </button>
           </div>
@@ -86,7 +86,7 @@
         <!-- Info Card -->
         <div class="card p-6 bg-zinc-900 text-white border-none">
           <h3 class="text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
-            <mat-icon class="text-zinc-400">info</mat-icon>
+            <i class="fa-solid fa-circle-info text-zinc-400"></i>
             Bilateral Factor
           </h3>
           <p class="text-zinc-400 text-sm leading-relaxed">
@@ -101,7 +101,7 @@
         <!-- Results Summary -->
         <div class="card p-8 bg-white border-zinc-900 border-2 relative overflow-hidden">
           <div class="absolute top-0 right-0 p-4 opacity-5">
-            <mat-icon style="font-size: 120px; width: 120px; height: 120px;">analytics</mat-icon>
+            <i class="fa-solid fa-chart-line" style="font-size: 120px;"></i>
           </div>
           
           <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
@@ -141,7 +141,7 @@
             <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Service Connected Conditions</h2>
             @if (disabilities().length > 0) {
               <button (click)="clearAll()" class="text-xs font-medium text-red-600 hover:text-red-700 flex items-center gap-1">
-                <mat-icon class="text-sm">delete_sweep</mat-icon>
+                <i class="fa-solid fa-broom text-sm"></i>
                 Clear All
               </button>
             }
@@ -159,8 +159,8 @@
                     <select class="input-field" [(ngModel)]="editExtremity">
                       @for (opt of extremityOptions; track opt.value) { <option [value]="opt.value">{{ opt.label }}</option> }
                     </select>
-                    <button (click)="saveEdit(d)" class="btn-primary p-2"><mat-icon>check</mat-icon></button>
-                    <button (click)="cancelEdit()" class="btn-secondary p-2"><mat-icon>close</mat-icon></button>
+                    <button (click)="saveEdit(d)" class="btn-primary p-2"><i class="fa-solid fa-check"></i></button>
+                    <button (click)="cancelEdit()" class="btn-secondary p-2"><i class="fa-solid fa-xmark"></i></button>
                   </div>
                 } @else {
                   <div class="flex items-center gap-4">
@@ -178,14 +178,14 @@
                     </div>
                   </div>
                   <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button (click)="startEdit(d)" class="p-2 text-zinc-300 hover:text-zinc-600"><mat-icon>edit</mat-icon></button>
-                    <button (click)="removeDisability(d.id)" class="p-2 text-zinc-300 hover:text-red-600"><mat-icon>delete_outline</mat-icon></button>
+                    <button (click)="startEdit(d)" class="p-2 text-zinc-300 hover:text-zinc-600"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button (click)="removeDisability(d.id)" class="p-2 text-zinc-300 hover:text-red-600"><i class="fa-regular fa-trash-can"></i></button>
                   </div>
                 }
               </div>
             } @empty {
               <div class="p-12 text-center">
-                <mat-icon class="text-zinc-200" style="font-size: 48px; width: 48px; height: 48px;">assignment_late</mat-icon>
+                <i class="fa-solid fa-clipboard-question text-zinc-200 text-5xl"></i>
                 <p class="mt-4 text-zinc-400 font-medium">No conditions added yet.</p>
                 <p class="text-xs text-zinc-300 mt-1">Add your ratings on the left to begin calculation.</p>
               </div>
@@ -196,7 +196,7 @@
         <!-- Detailed Breakdown (Optional/Advanced) -->
         @if (result().hasBilateralFactor) {
           <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex items-start gap-3">
-            <mat-icon class="text-emerald-600 mt-0.5">calculate</mat-icon>
+            <i class="fa-solid fa-calculator text-emerald-600 mt-0.5"></i>
             <div>
               <h4 class="text-sm font-bold text-emerald-900">Bilateral Factor Calculation</h4>
               <p class="text-xs text-emerald-700 mt-1">
@@ -221,13 +221,46 @@
           <div>
             <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">References</h4>
             <ul class="text-[10px] text-zinc-400 space-y-2">
-              <li>38 CFR § 4.25 - Combined Ratings</li>
-              <li>38 CFR § 4.26 - Bilateral Factor</li>
-              <li>38 CFR § 4.68 - Amputation Rule</li>
+              <li><button (click)="showReference('4.25')" class="hover:text-zinc-900 transition-colors">38 CFR § 4.25 - Combined Ratings</button></li>
+              <li><button (click)="showReference('4.26')" class="hover:text-zinc-900 transition-colors">38 CFR § 4.26 - Bilateral Factor</button></li>
+              <li><button (click)="showReference('4.68')" class="hover:text-zinc-900 transition-colors">38 CFR § 4.68 - Amputation Rule</button></li>
             </ul>
           </div>
         </div>
       </div>
     </footer>
   </div>
+
+  <!-- Reference Modal -->
+  @if (selectedReference(); as ref) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/60 backdrop-blur-sm" (click)="closeReference()">
+      <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden" (click)="$event.stopPropagation()">
+        <div class="p-6 md:p-8">
+          <div class="flex justify-between items-start mb-6">
+            <div class="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-600">
+              <i class="fa-solid fa-book-bookmark text-xl"></i>
+            </div>
+            <button (click)="closeReference()" class="p-2 text-zinc-400 hover:text-zinc-600 transition-colors">
+              <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-zinc-900 mb-4">{{ ref.title }}</h3>
+          <p class="text-zinc-600 leading-relaxed mb-8">
+            {{ ref.description }}
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a [href]="ref.sourceUrl" target="_blank" class="btn-primary flex-1 justify-center">
+              <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>
+              View Official Source
+            </a>
+            <button (click)="closeReference()" class="btn-secondary flex-1 justify-center">
+              Dismiss
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>
