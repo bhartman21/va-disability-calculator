@@ -1,0 +1,25 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <!-- Bilateral Factor Info Card -->
+  <div class="card p-6 bg-zinc-900 text-white border-none">
+    <h3 class="text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2 text-white">
+      <i class="fa-solid fa-circle-info text-zinc-400"></i>
+      Bilateral Factor
+    </h3>
+    <p class="text-zinc-400 text-sm leading-relaxed">
+      If you have conditions affecting both arms or both legs, the VA adds a 10% bonus to those combined ratings before merging them with other conditions.
+    </p>
+  </div>
+
+  <!-- Detailed Breakdown -->
+  @if (store.result().hasBilateralFactor) {
+    <div class="p-6 bg-emerald-50 rounded-3xl border border-emerald-100 flex items-start gap-3">
+      <i class="fa-solid fa-calculator text-emerald-600 mt-0.5"></i>
+      <div>
+        <h4 class="text-sm font-bold text-emerald-900">Bilateral Factor Calculation</h4>
+        <p class="text-xs text-emerald-700 mt-1">
+          Your bilateral conditions were combined to a raw value, then boosted by 10% to reach <strong>{{ store.result().bilateralValue | number:'1.2-2' }}%</strong>.
+        </p>
+      </div>
+    </div>
+  }
+</div>

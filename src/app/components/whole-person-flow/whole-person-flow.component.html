@@ -1,0 +1,60 @@
+@if (store.disabilities().length > 0) {
+  <div class="card p-4 sm:p-5 border-emerald-100 bg-emerald-50/10">
+    <div class="flex items-center justify-between cursor-pointer group pb-1" (click)="store.toggleWholePersonChart()">
+      <div>
+        <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-900 flex items-center gap-2 transition-colors group-hover:text-emerald-700">
+          VA Math Flow
+          <i class="fa-solid fa-chevron-down text-zinc-400 group-hover:text-emerald-500 transition-all duration-300" [class.-rotate-180]="store.showWholePersonChart()"></i>
+        </h3>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110">
+        <i class="fa-solid fa-calculator text-xs"></i>
+      </div>
+    </div>
+    
+    @if (store.showWholePersonChart()) {
+      <div class="w-full mt-4 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+        <p class="text-[11px] text-zinc-500 leading-relaxed italic max-w-3xl">
+          The "Whole Person Theory" assumes you start 100% healthy. Each disability rating is applied only to your <strong>remaining</strong> health. The final raw number is then rounded to the nearest 10%.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-y-3 gap-x-2 text-xs">
+          <!-- Starting Point -->
+          <div class="px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg shadow-sm font-mono font-bold text-zinc-600">
+            100%
+          </div>
+          
+          <!-- Steps -->
+          @for (step of store.result().steps; track $index) {
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-minus text-zinc-300 text-[10px]"></i>
+              <div class="flex shadow-sm rounded-lg overflow-hidden border border-zinc-200 hover:border-zinc-400 transition-colors cursor-help" [title]="(step.rating) + '% of ' + (step.remainingWholePerson + step.appliedValue | number:'1.0-1') + '% remaining = ' + (step.appliedValue | number:'1.1-1') + '% deduction'">
+                <div class="px-2.5 py-1.5 bg-zinc-50 text-zinc-700 border-r border-zinc-200 flex items-center gap-1.5 font-medium max-w-[140px]">
+                  <span class="truncate">{{ step.name }}</span>
+                  <span class="font-mono text-zinc-400 text-[10px]">{{ step.rating }}%</span>
+                </div>
+                <div class="px-2.5 py-1.5 bg-white font-mono font-bold text-zinc-500" title="Remaining Capacity">
+                  {{ step.remainingWholePerson | number:'1.0-1' }}%
+                </div>
+              </div>
+            </div>
+          }
+         
+          <div class="flex items-center gap-2 mt-1 sm:mt-0">
+            <i class="fa-solid fa-arrow-right text-zinc-400 text-[10px] ml-1"></i>
+            <div class="px-2.5 py-1.5 bg-zinc-800 border border-zinc-900 text-white shadow-sm rounded-lg font-mono font-bold flex items-center gap-2" title="Subtract remainder from 100 to get raw combined percentage">
+              <span class="text-[10px] text-zinc-400 font-sans uppercase tracking-wider hidden sm:inline">Raw</span>
+              {{ store.result().rawPercentage | number:'1.0-2' }}%
+            </div>
+            
+            <i class="fa-solid fa-equals text-emerald-400 text-[10px] ml-1"></i>
+            <div class="px-3 py-1.5 bg-emerald-100 border border-emerald-200 text-emerald-800 shadow-sm rounded-lg font-mono font-bold tracking-tight text-sm flex items-center gap-2" title="Final Rounded Combined Rating">
+              <span class="text-[10px] text-emerald-600/70 font-sans uppercase tracking-wider hidden sm:inline">Final</span>
+              {{ store.result().combinedRating }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

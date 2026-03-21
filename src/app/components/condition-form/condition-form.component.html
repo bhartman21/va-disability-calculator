@@ -1,0 +1,61 @@
+<div class="card p-6">
+  <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+    <i class="fa-regular fa-square-plus"></i>
+    Add Condition
+  </h2>
+  
+  <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex-grow">
+      <label class="label" for="condition-name">Condition Name</label>
+      <input 
+        id="condition-name"
+        type="text" 
+        class="input-field" 
+        placeholder="e.g. Tinnitus, Knee Strain"
+        [ngModel]="newName()"
+        (ngModelChange)="newName.set($event)"
+        (keyup.enter)="addDisability()"
+      >
+    </div>
+
+    <div class="w-full md:w-32">
+      <label class="label" for="rating-select">Rating (%)</label>
+      <select 
+        id="rating-select"
+        class="input-field" 
+        [ngModel]="newRating()"
+        (ngModelChange)="newRating.set(+$event)"
+      >
+        @for (r of availableRatings; track r) {
+          <option [value]="r">{{ r }}%</option>
+        }
+      </select>
+    </div>
+
+    <div class="w-full md:w-48">
+      <label class="label" for="extremity-select">Extremity</label>
+      <select 
+        id="extremity-select"
+        class="input-field" 
+        [ngModel]="newExtremity()"
+        (ngModelChange)="newExtremity.set($event)"
+      >
+        @for (opt of extremityOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="flex items-end">
+      <button 
+        class="btn-primary w-full md:w-auto justify-center"
+        [disabled]="!newName().trim()"
+        (click)="addDisability()"
+        style="height: 42px;"
+      >
+        <i class="fa-solid fa-plus mr-2"></i>
+        Add
+      </button>
+    </div>
+  </div>
+</div>
