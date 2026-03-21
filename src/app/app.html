@@ -1,0 +1,233 @@
+<div class="min-h-screen bg-zinc-50 p-4 md:p-8 lg:p-12">
+  <div class="max-w-5xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <header class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 text-zinc-500 mb-2">
+          <mat-icon class="text-sm">verified_user</mat-icon>
+          <span class="text-xs font-bold uppercase tracking-widest">Official Logic</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
+          VA Disability <span class="text-zinc-400 font-light italic">Calculator</span>
+        </h1>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-zinc-500 max-w-xs">
+          Calculates combined ratings based on the VA's "Whole Person Theory" and 38 CFR 4.25/4.26.
+        </p>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Input Section -->
+      <div class="lg:col-span-1 space-y-6">
+        <div class="card p-6">
+          <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+            <mat-icon>add_circle_outline</mat-icon>
+            Add Condition
+          </h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="label" for="condition-name">Condition Name</label>
+              <input 
+                id="condition-name"
+                type="text" 
+                class="input-field" 
+                placeholder="e.g. Tinnitus, Knee Strain"
+                [ngModel]="newName()"
+                (ngModelChange)="newName.set($event)"
+                (keyup.enter)="addDisability()"
+              >
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="label" for="rating-select">Rating (%)</label>
+                <select 
+                  id="rating-select"
+                  class="input-field" 
+                  [ngModel]="newRating()"
+                  (ngModelChange)="newRating.set(+$event)"
+                >
+                  @for (r of availableRatings; track r) {
+                    <option [value]="r">{{ r }}%</option>
+                  }
+                </select>
+              </div>
+              <div>
+                <label class="label" for="extremity-select">Extremity</label>
+                <select 
+                  id="extremity-select"
+                  class="input-field" 
+                  [ngModel]="newExtremity()"
+                  (ngModelChange)="newExtremity.set($event)"
+                >
+                  @for (opt of extremityOptions; track opt.value) {
+                    <option [value]="opt.value">{{ opt.label }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <button 
+              class="btn-primary w-full justify-center mt-2"
+              [disabled]="!newName().trim()"
+              (click)="addDisability()"
+            >
+              <mat-icon>add</mat-icon>
+              Add to List
+            </button>
+          </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card p-6 bg-zinc-900 text-white border-none">
+          <h3 class="text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
+            <mat-icon class="text-zinc-400">info</mat-icon>
+            Bilateral Factor
+          </h3>
+          <p class="text-zinc-400 text-sm leading-relaxed">
+            If you have conditions affecting both arms or both legs, the VA adds a 10% bonus to those combined ratings before merging them with other conditions.
+          </p>
+        </div>
+      </div>
+
+      <!-- List & Results Section -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Results Summary -->
+        <div class="card p-8 bg-white border-zinc-900 border-2 relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-4 opacity-5">
+            <mat-icon style="font-size: 120px; width: 120px; height: 120px;">analytics</mat-icon>
+          </div>
+          
+          <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+            <div class="text-center md:text-left">
+              <span class="label">Combined Rating</span>
+              <div class="text-7xl font-bold tracking-tighter text-zinc-900">
+                {{ result().combinedRating }}%
+              </div>
+              <div class="mt-2 flex items-center gap-2 justify-center md:justify-start">
+                <span class="text-sm font-mono text-zinc-500">Raw: {{ result().rawPercentage | number:'1.2-2' }}%</span>
+                @if (result().hasBilateralFactor) {
+                  <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Bilateral Applied</span>
+                }
+              </div>
+            </div>
+
+            <div class="h-px w-full md:h-16 md:w-px bg-zinc-100"></div>
+
+            <div class="grid grid-cols-2 gap-8 text-center md:text-left">
+              <div>
+                <span class="label">Conditions</span>
+                <div class="text-2xl font-bold">{{ disabilities().length }}</div>
+              </div>
+              <div>
+                <span class="label">Status</span>
+                <div class="text-2xl font-bold text-emerald-600">
+                  {{ result().combinedRating >= 10 ? 'Compensable' : 'Non-Comp' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div class="card">
+          <div class="p-4 border-b border-zinc-100 flex justify-between items-center bg-zinc-50/50">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Service Connected Conditions</h2>
+            @if (disabilities().length > 0) {
+              <button (click)="clearAll()" class="text-xs font-medium text-red-600 hover:text-red-700 flex items-center gap-1">
+                <mat-icon class="text-sm">delete_sweep</mat-icon>
+                Clear All
+              </button>
+            }
+          </div>
+
+          <div class="divide-y divide-zinc-100">
+            @for (d of disabilities(); track d.id) {
+              <div class="p-4 flex items-center justify-between hover:bg-zinc-50 transition-colors group" [class.bg-yellow-50]="d.isModified">
+                @if (editingId() === d.id) {
+                  <div class="flex flex-1 items-center gap-2">
+                    <input class="input-field" [(ngModel)]="editName">
+                    <select class="input-field" [(ngModel)]="editRating">
+                      @for (r of availableRatings; track r) { <option [value]="r">{{ r }}%</option> }
+                    </select>
+                    <select class="input-field" [(ngModel)]="editExtremity">
+                      @for (opt of extremityOptions; track opt.value) { <option [value]="opt.value">{{ opt.label }}</option> }
+                    </select>
+                    <button (click)="saveEdit(d)" class="btn-primary p-2"><mat-icon>check</mat-icon></button>
+                    <button (click)="cancelEdit()" class="btn-secondary p-2"><mat-icon>close</mat-icon></button>
+                  </div>
+                } @else {
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-100 flex items-center justify-center font-bold text-zinc-600 relative">
+                      {{ d.rating }}%
+                      @if (d.isModified) {
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border-2 border-white"></span>
+                      }
+                    </div>
+                    <div>
+                      <h3 class="font-bold text-zinc-900">{{ d.name }}</h3>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs text-zinc-400 font-mono uppercase">{{ d.extremity === 'none' ? 'General' : d.extremity.replace('-', ' ') }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button (click)="startEdit(d)" class="p-2 text-zinc-300 hover:text-zinc-600"><mat-icon>edit</mat-icon></button>
+                    <button (click)="removeDisability(d.id)" class="p-2 text-zinc-300 hover:text-red-600"><mat-icon>delete_outline</mat-icon></button>
+                  </div>
+                }
+              </div>
+            } @empty {
+              <div class="p-12 text-center">
+                <mat-icon class="text-zinc-200" style="font-size: 48px; width: 48px; height: 48px;">assignment_late</mat-icon>
+                <p class="mt-4 text-zinc-400 font-medium">No conditions added yet.</p>
+                <p class="text-xs text-zinc-300 mt-1">Add your ratings on the left to begin calculation.</p>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Detailed Breakdown (Optional/Advanced) -->
+        @if (result().hasBilateralFactor) {
+          <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex items-start gap-3">
+            <mat-icon class="text-emerald-600 mt-0.5">calculate</mat-icon>
+            <div>
+              <h4 class="text-sm font-bold text-emerald-900">Bilateral Factor Calculation</h4>
+              <p class="text-xs text-emerald-700 mt-1">
+                Your bilateral conditions were combined to a raw value, then boosted by 10% to reach <strong>{{ result().bilateralValue | number:'1.2-2' }}%</strong>, which was then combined with your other ratings.
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="pt-12 pb-8 border-t border-zinc-200">
+      <div class="flex flex-col md:flex-row justify-between gap-8">
+        <div class="max-w-md">
+          <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">Disclaimer</h4>
+          <p class="text-[10px] text-zinc-400 leading-relaxed">
+            This calculator is for informational purposes only and is based on 38 CFR Book C, Schedule for Rating Disabilities. Official VA ratings are determined by the Department of Veterans Affairs. This tool does not account for Special Monthly Compensation (SMC) or other complex rating scenarios not listed in the guide.
+          </p>
+        </div>
+        <div class="flex gap-12">
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">References</h4>
+            <ul class="text-[10px] text-zinc-400 space-y-2">
+              <li>38 CFR § 4.25 - Combined Ratings</li>
+              <li>38 CFR § 4.26 - Bilateral Factor</li>
+              <li>38 CFR § 4.68 - Amputation Rule</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
