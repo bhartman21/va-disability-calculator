@@ -6,21 +6,20 @@
 
 A professional, high-performance tool designed for veterans and advocates to calculate VA disability ratings accurately. This application implements the complex "Whole Person Theory" and "Bilateral Factor" logic as-prescribed by the Department of Veterans Affairs.
 
+📖 **Check out [PROJECT_STATUS.md](PROJECT_STATUS.md) for the current feature breakdown, architectural details, and our development backlog.**
+
 ## 🚀 Features
 
 - **VA Math Precision**: Implements combined rating logic according to [38 CFR § 4.25](https://www.ecfr.gov/current/title-38/chapter-I/part-4/subpart-A/section-4.25).
 - **Bilateral Factor Support**: Automatically detects and applies the 10% bilateral boost for conditions affecting paired extremities (arms/legs) per [38 CFR § 4.26](https://www.ecfr.gov/current/title-38/chapter-I/part-4/subpart-A/section-4.26).
-- **Interactive Management**: Easily add, edit, or remove service-connected conditions with real-time feedback.
-- **Detailed Breakdown**: Visual representation of how your combined rating was achieved, including raw vs. rounded percentages.
-- **Modern UI/UX**: Built with Angular Signals and Tailwind CSS for a fluid, responsive experience.
+- **Modern Component Architecture**: Built with Angular 18+ (Standalone Components and Signals) and Tailwind CSS for a fluid, responsive, state-driven experience.
+- **Interactive Management**: Easily add, edit, or remove service-connected conditions with an elegant inline-editing UI.
+- **"Math Flow" Algorithm**: A custom visual diagram traces exactly how the percentage cascades down step-by-step from 100%.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: [Angular](https://angular.dev/) (Standalone Components, Signals)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [Angular Material](https://material.angular.io/)
-- **Backend**: [Node.js](https://nodejs.org/) with [Express](https://expressjs.com/)
-- **AI Integration**: [Google Gemini Pro](https://ai.google.dev/) via `@google/genai`
-- **Environment**: Developed in [Google AI Studio](https://ai.studio/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [FontAwesome](https://fontawesome.com/)
 
 ## ⚙️ Local Development
 
@@ -42,17 +41,11 @@ A professional, high-performance tool designed for veterans and advocates to cal
     npm install
     ```
 
-3.  **Environment Configuration**:
-    Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key.
-    ```bash
-    GEMINI_API_KEY=your_api_key_here
-    ```
-
-4.  **Run the Development Server**:
+3.  **Run the Development Server**:
     ```bash
     npm run dev
     ```
-    Access the app at `http://localhost:3000`.
+    Access the app at `http://localhost:4200`.
 
 ## ⚖️ Disclaimer
 
