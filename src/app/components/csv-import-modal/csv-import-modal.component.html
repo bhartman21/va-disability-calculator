@@ -1,0 +1,95 @@
+@if (parsedData) {
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200" (click)="close.emit()">
+    <!-- Modal Content -->
+    <div
+      class="bg-white text-zinc-900 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col animate-modal border border-zinc-200 overflow-hidden"
+      (click)="$event.stopPropagation()">
+
+      <!-- Header -->
+      <div
+        class="px-6 py-4 border-b border-theme-border/20 flex justify-between items-center bg-theme-primary transition-colors duration-500 relative">
+        <div class="relative z-10 text-theme-foreground">
+          <h2 class="text-xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-file-csv text-theme-accent"></i>
+            Review Import
+          </h2>
+          <p class="text-xs opacity-70 mt-1">Found {{ parsedData.serviceConnected.length +
+            parsedData.notServiceConnected.length }} conditions in your export.</p>
+        </div>
+        <button (click)="close.emit()"
+          class="w-8 h-8 rounded-full bg-theme-accent-bg hover:bg-theme-accent text-theme-accent-text flex items-center justify-center transition-colors relative z-10 group">
+          <i class="fa-solid fa-xmark group-hover:text-theme-primary"></i>
+        </button>
+      </div>
+
+      <!-- Body / Scrollable Content -->
+      <div class="p-6 overflow-y-auto bg-theme-primary-light/10 space-y-6">
+
+        <!-- Service Connected Section -->
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-check-circle text-theme-accent"></i>
+            Service Connected (To Be Added)
+          </h3>
+          @if (parsedData.serviceConnected.length > 0) {
+          <div class="space-y-2">
+            @for (item of parsedData.serviceConnected; track $index) {
+            <div
+              class="p-3 bg-theme-primary border border-theme-border rounded-lg flex items-center justify-between shadow-sm">
+              <div class="flex-1">
+                <p class="font-medium text-sm text-theme-foreground truncate" [title]="item.name">{{ item.name }}</p>
+                <p class="text-xs text-theme-foreground/60 mt-0.5"><i
+                    class="fa-solid fa-hand-dots text-[10px] mr-1"></i>{{ formatExtremity(item.extremity) }}</p>
+              </div>
+              <div class="w-12 text-right">
+                <span class="font-mono font-bold text-theme-accent">{{ item.rating }}%</span>
+              </div>
+            </div>
+            }
+          </div>
+          } @else {
+          <p class="text-sm text-theme-foreground/60 italic">No compensable service connected conditions found.</p>
+          }
+        </div>
+
+        <!-- Not Service Connected Section -->
+        @if (parsedData.notServiceConnected.length > 0) {
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-ban"></i>
+            Not Service Connected (Ignored)
+          </h3>
+          <div class="space-y-2 opacity-70 grayscale">
+            @for (item of parsedData.notServiceConnected; track $index) {
+            <div
+              class="p-3 bg-zinc-100 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700/50 rounded-lg flex items-center justify-between">
+              <div class="flex-1">
+                <p class="font-medium text-sm truncate opacity-80" [title]="item.name">{{ item.name }}</p>
+                <p class="text-[10px] uppercase font-bold tracking-wider text-zinc-500 mt-1">{{ item.reason }}</p>
+              </div>
+              <div class="w-12 text-right">
+                <span class="font-mono text-zinc-400">{{ item.rating }}%</span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="p-6 border-t border-zinc-200 bg-zinc-50 flex items-center justify-end gap-3">
+        <button (click)="close.emit()" class="btn-secondary">
+          Cancel
+        </button>
+        <button (click)="confirmImport()" [disabled]="parsedData.serviceConnected.length === 0" class="btn-primary">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          Import {{ parsedData.serviceConnected.length }} Conditions
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

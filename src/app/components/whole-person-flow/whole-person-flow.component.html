@@ -1,13 +1,13 @@
 @if (store.disabilities().length > 0) {
-  <div class="card p-4 sm:p-5 border-emerald-100 bg-emerald-50/10">
+  <div class="card p-4 sm:p-5 border-2 border-theme-border/30 bg-theme-accent-bg transition-colors duration-500 shadow-md">
     <div class="flex items-center justify-between cursor-pointer group pb-1" (click)="store.toggleWholePersonChart()">
       <div>
-        <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-900 flex items-center gap-2 transition-colors group-hover:text-emerald-700">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-900 flex items-center gap-2 transition-colors group-hover:text-theme-accent">
           VA Math Flow
-          <i class="fa-solid fa-chevron-down text-zinc-400 group-hover:text-emerald-500 transition-all duration-300" [class.-rotate-180]="store.showWholePersonChart()"></i>
+          <i class="fa-solid fa-chevron-down text-zinc-400 group-hover:text-theme-accent transition-all duration-300" [class.-rotate-180]="store.showWholePersonChart()"></i>
         </h3>
       </div>
-      <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110">
+      <div class="w-8 h-8 rounded-full bg-theme-accent-bg flex items-center justify-center text-theme-primary transition-transform group-hover:scale-110">
         <i class="fa-solid fa-calculator text-xs"></i>
       </div>
     </div>
@@ -42,14 +42,14 @@
          
           <div class="flex items-center gap-2 mt-1 sm:mt-0">
             <i class="fa-solid fa-arrow-right text-zinc-400 text-[10px] ml-1"></i>
-            <div class="px-2.5 py-1.5 bg-zinc-800 border border-zinc-900 text-white shadow-sm rounded-lg font-mono font-bold flex items-center gap-2" title="Subtract remainder from 100 to get raw combined percentage">
-              <span class="text-[10px] text-zinc-400 font-sans uppercase tracking-wider hidden sm:inline">Raw</span>
+            <div class="px-2.5 py-1.5 bg-theme-primary border border-theme-border text-theme-foreground shadow-sm rounded-lg font-mono font-bold flex items-center gap-2" title="Subtract remainder from 100 to get raw combined percentage">
+              <span class="text-[10px] text-theme-foreground/70 font-sans uppercase tracking-wider hidden sm:inline">Raw</span>
               {{ store.result().rawPercentage | number:'1.0-2' }}%
             </div>
             
-            <i class="fa-solid fa-equals text-emerald-400 text-[10px] ml-1"></i>
-            <div class="px-3 py-1.5 bg-emerald-100 border border-emerald-200 text-emerald-800 shadow-sm rounded-lg font-mono font-bold tracking-tight text-sm flex items-center gap-2" title="Final Rounded Combined Rating">
-              <span class="text-[10px] text-emerald-600/70 font-sans uppercase tracking-wider hidden sm:inline">Final</span>
+            <i class="fa-solid fa-equals text-theme-primary opacity-50 text-[10px] ml-1"></i>
+            <div class="px-3 py-1.5 bg-theme-accent-bg border border-theme-border/30 text-theme-primary shadow-sm rounded-lg font-mono font-bold tracking-tight text-sm flex items-center gap-2" title="Final Rounded Combined Rating">
+              <span class="text-[10px] text-theme-primary/70 font-sans uppercase tracking-wider hidden sm:inline">Final</span>
               {{ store.result().combinedRating }}%
             </div>
           </div>

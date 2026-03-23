@@ -1,28 +1,28 @@
-<div class="card overflow-hidden border-2 border-zinc-900 grid grid-cols-1 md:grid-cols-3">
+<div class="card overflow-hidden border-2 border-theme-border grid grid-cols-1 md:grid-cols-3">
   
   <!-- Left Side: Summary (1/3) -->
-  <div class="p-8 bg-zinc-900 text-white relative md:col-span-1 flex flex-col justify-center">
+  <div class="p-8 bg-theme-primary text-theme-foreground relative md:col-span-1 flex flex-col justify-center transition-colors duration-500">
     <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
       <i class="fa-solid fa-chart-line" style="font-size: 140px;"></i>
     </div>
     
     <div class="relative z-10 text-center md:text-left">
-      <span class="text-xs font-bold uppercase tracking-widest text-zinc-400">Combined Rating</span>
-      <div class="text-7xl lg:text-8xl font-black tracking-tighter text-white leading-none mt-2">
+      <span class="text-xs font-bold uppercase tracking-widest text-theme-foreground/90">Combined Rating</span>
+      <div class="text-7xl lg:text-8xl font-black tracking-tighter text-theme-foreground drop-shadow-md leading-none mt-2 transition-colors duration-500">
         {{ store.result().combinedRating }}%
       </div>
       
-      <div class="mt-4 flex gap-3 text-sm font-mono text-zinc-400 items-center justify-center md:justify-start">
+      <div class="mt-4 flex gap-3 text-sm font-mono text-theme-foreground/70 items-center justify-center md:justify-start">
         <span>Raw: {{ store.result().rawPercentage | number:'1.2-2' }}%</span>
         @if (store.result().hasBilateralFactor) {
-          <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Bilateral Applied</span>
+          <span class="bg-theme-accent-bg text-theme-primary border border-theme-border/30 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Bilateral Applied</span>
         }
       </div>
 
-      <div class="mt-8 pt-4 border-t border-zinc-800">
-        <div class="flex items-center justify-center md:justify-start gap-3">
-          <span class="text-xs font-bold uppercase tracking-widest text-zinc-400">Conditions:</span>
-          <div class="text-2xl font-black text-white leading-none mt-0.5">{{ store.disabilities().length }}</div>
+      <div class="mt-8 pt-4 border-t border-theme-border/50">
+        <div class="flex items-center justify-center md:justify-start gap-3 text-theme-foreground">
+          <span class="text-xs font-bold uppercase tracking-widest opacity-80">Conditions:</span>
+          <div class="text-2xl font-black leading-none mt-0.5">{{ store.disabilities().length }}</div>
         </div>
       </div>
     </div>
@@ -30,14 +30,36 @@
 
   <!-- Right Side: Conditions List (2/3) -->
   <div class="bg-white md:col-span-2 flex flex-col max-h-[450px]">
+    
+    <!-- Extension Banner -->
+    <div class="bg-theme-primary/10 text-theme-primary px-4 py-3 text-sm font-medium flex items-center justify-between border-b border-theme-border/20 transition-colors">
+      <span class="flex items-center gap-2">
+        <i class="fa-solid fa-puzzle-piece"></i>
+        Calculate instantly from your VA.gov profile.
+      </span>
+      <a href="https://chromewebstore.google.com/detail/va-benefits-dashboard/dnknjnfihknjmjleokmcaiigkaibkamf" target="_blank" class="font-bold text-theme-primary hover:text-theme-accent hover:underline transition-colors flex items-center gap-1">
+        Get Chrome Extension <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+      </a>
+    </div>
+
     <div class="p-4 border-b border-zinc-100 flex justify-between items-center bg-zinc-50/50 flex-shrink-0">
       <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Service Connected Conditions</h2>
-      @if (store.disabilities().length > 0) {
-        <button (click)="store.clearAll()" class="text-xs font-medium text-red-600 hover:text-red-700 flex items-center gap-1 transition-colors">
-          <i class="fa-solid fa-broom text-sm"></i>
-          Clear All
-        </button>
-      }
+      <div class="flex items-center gap-4">
+        <label class="cursor-pointer text-xs font-medium text-zinc-600 hover:text-theme-primary flex items-center gap-1 transition-colors relative group">
+          <i class="fa-solid fa-file-csv text-sm group-hover:text-theme-accent transition-colors"></i>
+          <span class="hidden sm:inline">Import VABD</span>
+          <span class="sm:hidden">Import</span>
+          <input type="file" accept=".csv" class="hidden" (change)="onFileSelected($event)">
+        </label>
+
+        @if (store.disabilities().length > 0) {
+          <div class="w-px h-4 bg-zinc-300"></div>
+          <button (click)="store.clearAll()" class="text-xs font-medium text-red-600 hover:text-red-700 flex items-center gap-1 transition-colors">
+            <i class="fa-solid fa-broom text-sm"></i>
+            Clear All
+          </button>
+        }
+      </div>
     </div>
 
     <div class="divide-y divide-zinc-100 overflow-y-auto flex-grow custom-scrollbar">
@@ -96,3 +118,25 @@
     </div>
   </div>
 </div>
+
+<app-csv-import-modal 
+  [parsedData]="parsedCsvData()" 
+  (close)="closeCsvModal()"
+></app-csv-import-modal>
+
+@if (csvError()) {
+  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+    <div class="bg-white text-zinc-900 p-8 rounded-2xl max-w-md w-full text-center shadow-xl border border-zinc-200 animate-modal">
+      <div class="w-20 h-20 mx-auto bg-amber-100 dark:bg-amber-500/10 rounded-full flex items-center justify-center mb-6">
+        <i class="fa-solid fa-file-circle-xmark text-4xl text-amber-500"></i>
+      </div>
+      <h3 class="text-xl font-bold mb-3">Invalid File Format</h3>
+      <p class="text-zinc-600 text-sm mb-8 leading-relaxed">
+        This CSV doesn't match the expected format. Please export your disabilities directly from the <a href="https://chromewebstore.google.com/detail/va-benefits-dashboard/dnknjnfihknjmjleokmcaiigkaibkamf" target="_blank" class="text-theme-primary font-bold hover:underline">VA Benefits Dashboard Chrome Extension</a> to use this feature.
+      </p>
+      <button (click)="csvError.set(null)" class="btn-primary w-full justify-center h-12">
+        <i class="fa-solid fa-check mr-2"></i> Understood
+      </button>
+    </div>
+  </div>
+}

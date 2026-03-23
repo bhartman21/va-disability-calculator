@@ -10,6 +10,8 @@ export class VaCalculatorService {
   disabilities = signal<Disability[]>([]);
   showWholePersonChart = signal(true);
   selectedReference = signal<ReferenceInfo | null>(null);
+  theme = signal<string>('army');
+  showThemePicker = signal<boolean>(false);
 
   references: Record<string, ReferenceInfo> = {
     '4.25': {
@@ -59,6 +61,14 @@ export class VaCalculatorService {
     this.disabilities.update(list => list.filter(d => d.id !== id));
   }
 
+  importDisabilities(newDisabilities: Omit<Disability, 'id'>[]) {
+    const withIds: Disability[] = newDisabilities.map(d => ({
+      ...d,
+      id: crypto.randomUUID()
+    }));
+    this.disabilities.update(list => [...list, ...withIds]);
+  }
+
   clearAll() {
     this.disabilities.set([]);
   }
@@ -67,12 +77,21 @@ export class VaCalculatorService {
     this.showWholePersonChart.update(v => !v);
   }
 
+  setTheme(newTheme: string) {
+    this.theme.set(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  }
+
   showReference(ref: ReferenceInfo) {
     this.selectedReference.set(ref);
   }
 
   closeReference() {
     this.selectedReference.set(null);
+  }
+
+  toggleThemePicker() {
+    this.showThemePicker.update(v => !v);
   }
 
   calculate(disabilities: Disability[]): CalculationResult {

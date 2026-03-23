@@ -1,25 +1,29 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8 py-4 border-y border-zinc-100/50">
   <!-- Bilateral Factor Info Card -->
-  <div class="card p-6 bg-zinc-900 text-white border-none">
-    <h3 class="text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2 text-white">
-      <i class="fa-solid fa-circle-info text-zinc-400"></i>
-      Bilateral Factor
-    </h3>
-    <p class="text-zinc-400 text-sm leading-relaxed">
-      If you have conditions affecting both arms or both legs, the VA adds a 10% bonus to those combined ratings before merging them with other conditions.
-    </p>
+  <div
+    class="p-6 bg-theme-accent-bg rounded-3xl border-2 border-theme-border/30 flex items-start gap-4 transition-colors duration-500 shadow-sm">
+    <i class="fa-solid fa-circle-info text-theme-accent mt-0.5 text-lg"></i>
+    <div class="flex-1">
+      <h4 class="text-sm font-black text-zinc-900 leading-tight">Bilateral Factor</h4>
+      <p class="text-xs text-zinc-800 mt-1.5 font-medium leading-relaxed">
+        If you have conditions affecting both arms or both legs, the VA adds a 10% bonus to those combined ratings
+        before merging them with other conditions.
+      </p>
+    </div>
   </div>
 
   <!-- Detailed Breakdown -->
   @if (store.result().hasBilateralFactor) {
-    <div class="p-6 bg-emerald-50 rounded-3xl border border-emerald-100 flex items-start gap-3">
-      <i class="fa-solid fa-calculator text-emerald-600 mt-0.5"></i>
-      <div>
-        <h4 class="text-sm font-bold text-emerald-900">Bilateral Factor Calculation</h4>
-        <p class="text-xs text-emerald-700 mt-1">
-          Your bilateral conditions were combined to a raw value, then boosted by 10% to reach <strong>{{ store.result().bilateralValue | number:'1.2-2' }}%</strong>.
-        </p>
-      </div>
+  <div
+    class="p-6 bg-theme-accent-bg rounded-3xl border-2 border-theme-border/30 flex items-start gap-4 transition-colors duration-500 shadow-sm">
+    <i class="fa-solid fa-calculator text-theme-accent mt-0.5 text-lg"></i>
+    <div class="flex-1">
+      <h4 class="text-sm font-black text-zinc-900 leading-tight">Bilateral Factor Calculation</h4>
+      <p class="text-xs text-zinc-800 mt-1.5 font-medium leading-relaxed">
+        Your bilateral conditions were combined to a raw value, then boosted by 10% to reach <strong>{{
+          store.result().bilateralValue | number:'1.2-2' }}%</strong>.
+      </p>
     </div>
+  </div>
   }
 </div>

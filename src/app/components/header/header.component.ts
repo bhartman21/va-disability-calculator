@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { VaCalculatorService } from '../../va-calculator.service';
 
 @Component({
   selector: 'app-header',
@@ -6,4 +7,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  store = inject(VaCalculatorService);
+}

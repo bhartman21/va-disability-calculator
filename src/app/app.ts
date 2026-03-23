@@ -7,6 +7,7 @@ import { ConditionsListComponent } from './components/conditions-list/conditions
 import { ConditionFormComponent } from './components/condition-form/condition-form.component';
 import { WholePersonFlowComponent } from './components/whole-person-flow/whole-person-flow.component';
 import { InfoSectionComponent } from './components/info-section/info-section.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +21,8 @@ import { InfoSectionComponent } from './components/info-section/info-section.com
     ConditionsListComponent,
     ConditionFormComponent,
     WholePersonFlowComponent,
-    InfoSectionComponent
+    InfoSectionComponent,
+    ThemePickerComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

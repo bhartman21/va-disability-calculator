@@ -1,0 +1,78 @@
+@if (store.showThemePicker()) {
+  <!-- Backdrop -->
+  <div 
+    class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+    (click)="store.toggleThemePicker()"
+  >
+    <!-- Modal Content -->
+    <div 
+      class="bg-white rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden flex flex-col animate-modal border border-zinc-200"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Header -->
+      <div class="px-6 py-4 border-b border-zinc-100 flex justify-between items-center bg-zinc-50 relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 text-zinc-200 opacity-50 pointer-events-none">
+          <i class="fa-solid fa-palette text-8xl"></i>
+        </div>
+        <div class="relative z-10">
+          <h2 class="text-xl font-bold text-zinc-900 flex items-center gap-2">
+            <i class="fa-solid fa-paintbrush text-theme-primary"></i>
+            Select Branch Theme
+          </h2>
+          <p class="text-xs text-zinc-500 font-medium tracking-wide mt-1">CHOOSE YOUR HERITAGE COLORS</p>
+        </div>
+        <button 
+          (click)="store.toggleThemePicker()"
+          class="w-8 h-8 rounded-full bg-zinc-200/50 hover:bg-zinc-200 text-zinc-500 hover:text-zinc-800 flex items-center justify-center transition-colors relative z-10"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Body / Grid -->
+      <div class="p-6 overflow-y-auto bg-zinc-50/50 relative">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          @for (theme of themeOptions; track theme.id) {
+            <button 
+              (click)="selectTheme(theme.id)"
+              class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300 text-left cursor-pointer shadow-sm hover:shadow-md h-32"
+              [class.border-theme-primary]="store.theme() === theme.id"
+              [class.ring-4]="store.theme() === theme.id"
+              [class.ring-theme-primary-light/20]="store.theme() === theme.id"
+              [class.scale-[1.02]]="store.theme() === theme.id"
+              [class.border-zinc-200]="store.theme() !== theme.id"
+            >
+              <!-- Primary Background Split -->
+              <div class="absolute inset-0 w-3/4 transition-transform duration-500 group-hover:scale-105" [class]="theme.primaryClass"></div>
+              
+              <!-- Accent Background Split -->
+              <div class="absolute inset-y-0 right-0 w-1/4 transform -skew-x-12 translate-x-4 transition-transform duration-500 group-hover:-translate-x-1" [class]="theme.accentClass"></div>
+              
+              <!-- Active Badge -->
+              @if (store.theme() === theme.id) {
+                <div class="absolute top-2 right-2 z-20 w-6 h-6 rounded-full bg-white shadow-sm flex items-center justify-center animate-in zoom-in">
+                  <i class="fa-solid fa-check text-xs" [class]="'text-' + theme.primaryClass.replace('bg-', '')"></i>
+                </div>
+              }
+
+              <!-- Content Overlay -->
+              <div class="relative z-10 h-full p-4 flex flex-col justify-end">
+                <div class="flex items-center gap-2">
+                  <span class="text-white font-bold text-lg drop-shadow-md">{{ theme.name }}</span>
+                </div>
+                <!-- Mini UI Preview -->
+                <div class="mt-2 flex gap-2">
+                  <div class="w-12 h-2 rounded bg-white/20"></div>
+                  <div class="w-8 h-2 rounded" [class]="theme.accentClass"></div>
+                </div>
+              </div>
+
+              <!-- Shine Effect -->
+              <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -translate-x-full group-hover:translate-x-full"></div>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

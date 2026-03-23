@@ -7,15 +7,99 @@
 }
 
 body {
-  @apply bg-zinc-50 text-zinc-900 font-sans antialiased;
+  @apply bg-theme-page text-zinc-900 font-sans antialiased;
+}
+
+@theme {
+  --color-theme-primary: var(--color-primary);
+  --color-theme-primary-light: var(--color-primary-light);
+  --color-theme-accent: var(--color-accent);
+  --color-theme-accent-text: var(--color-accent-text);
+  --color-theme-accent-bg: var(--color-accent-bg-subtle);
+  --color-theme-border: var(--color-border);
+  --color-theme-foreground: var(--color-foreground);
+  --color-theme-accent-foreground: var(--color-accent-foreground);
+  --color-theme-page: var(--color-page-bg);
+}
+
+:root, [data-theme='army'] {
+  --color-primary: #18181b; /* zinc-900 */
+  --color-primary-light: #27272a; /* zinc-800 */
+  --color-accent: #facc15; /* yellow-400 */
+  --color-accent-text: #facc15;
+  --color-accent-bg-subtle: rgba(250, 204, 21, 0.2);
+  --color-border: #27272a;
+  --color-foreground: #ffffff;
+  --color-accent-foreground: #000000;
+  --color-page-bg: #fafafa;
+}
+
+[data-theme='marines'] {
+  --color-primary: #7f1d1d; /* red-900 */
+  --color-primary-light: #991b1b; /* red-800 */
+  --color-accent: #eab308; /* yellow-500 */
+  --color-accent-text: #eab308;
+  --color-accent-bg-subtle: rgba(234, 179, 8, 0.2);
+  --color-border: #991b1b;
+  --color-foreground: #ffffff;
+  --color-accent-foreground: #000000;
+  --color-page-bg: #fef2f2;
+}
+
+[data-theme='navy'] {
+  --color-primary: #0f172a; /* slate-900 */
+  --color-primary-light: #1e293b; /* slate-800 */
+  --color-accent: #f59e0b; /* amber-500 */
+  --color-accent-text: #f59e0b;
+  --color-accent-bg-subtle: rgba(245, 158, 11, 0.2);
+  --color-border: #1e293b;
+  --color-foreground: #ffffff;
+  --color-accent-foreground: #000000;
+  --color-page-bg: #f8fafc;
+}
+
+[data-theme='airforce'] {
+  --color-primary: #1e3a8a; /* blue-900 */
+  --color-primary-light: #1d4ed8; /* blue-700 */
+  --color-accent: #facc15; /* yellow-400 */
+  --color-accent-text: #facc15;
+  --color-accent-bg-subtle: rgba(250, 204, 21, 0.2);
+  --color-border: #1d4ed8;
+  --color-foreground: #ffffff;
+  --color-accent-foreground: #000000;
+  --color-page-bg: #eff6ff;
+}
+
+[data-theme='spaceforce'] {
+  --color-primary: #082f49; /* sky-950 */
+  --color-primary-light: #0c4a6e; /* sky-900 */
+  --color-accent: #cbd5e1; /* slate-300 */
+  --color-accent-text: #cbd5e1;
+  --color-accent-bg-subtle: rgba(203, 213, 225, 0.2);
+  --color-border: #0c4a6e;
+  --color-foreground: #ffffff;
+  --color-accent-foreground: #082f49;
+  --color-page-bg: #f1f5f9;
+}
+
+[data-theme='coastguard'] {
+  --color-primary: #0c4a6e; /* sky-900 */
+  --color-primary-light: #075985; /* sky-800 */
+  --color-accent: #dc2626; /* red-600 */
+  --color-accent-text: #ffffff;
+  --color-accent-bg-subtle: rgba(220, 38, 38, 0.3);
+  --color-border: #075985;
+  --color-foreground: #ffffff;
+  --color-accent-foreground: #ffffff;
+  --color-page-bg: #ffffff;
 }
 
 .card {
-  @apply bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden;
+  @apply bg-white rounded-2xl border border-zinc-200/80 shadow-md transition-shadow duration-300;
 }
 
 .btn-primary {
-  @apply bg-zinc-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-zinc-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2;
+  @apply bg-theme-primary text-theme-foreground border border-theme-border px-4 py-2 rounded-lg font-medium hover:bg-theme-primary-light transition-colors flex items-center gap-2;
 }
 
 .btn-secondary {

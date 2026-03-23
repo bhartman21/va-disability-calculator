@@ -1,0 +1,16 @@
+Diagnostic Type Code,hyph_diagnostic_type_code,Decision,Diagnostic Text,Rating Percentage,static
+"8513","","Service Connected","radiculopathy, left upper extremity",20,true
+"6847","","Service Connected","obstructive sleep apnea with shortness of breath",50,true
+"6037","","Not Service Connected","pinguecula","0",false
+"5297","5299","Service Connected","somatic dysfunction thoracic and rib region",10,true
+"8513","","Service Connected","radiculopathy, right upper extremity",20,true
+"9440","","Service Connected","adjustment disorder with mixed anxiety and depressed mood, chronic",30,true
+"8520","","Service Connected","radiculopathy, left lower extremity",10,true
+"8520","","Service Connected","radiculopathy, right lower extremity",10,true
+"6100","","Not Service Connected","bilateral hearing loss","0",false
+"5242","","Service Connected","degenerative disc disease of the cervical spine",10,true
+"6025","6099","Service Connected","dry eye syndrome",0,true
+"6522","6599","Service Connected","non-allergic rhinitis",0,true
+"5239","","Service Connected","lumbar spondylosis",20,true
+"6018","6099","Service Connected","bilateral blepharitis",0,true
+"6260","","Service Connected","tinnitus",10,true
