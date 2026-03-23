@@ -6,6 +6,8 @@ export interface Disability {
   rating: number; // 10, 20, ..., 100
   extremity: Extremity;
   isModified?: boolean;
+  diagnosticCode?: string;
+  secondaryDiagnosticCode?: string;
 }
 
 export interface CalculationStep {

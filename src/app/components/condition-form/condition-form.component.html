@@ -3,56 +3,45 @@
     <i class="fa-regular fa-square-plus"></i>
     Add Condition
   </h2>
-  
+
   <div class="flex flex-col md:flex-row gap-4">
     <div class="flex-grow">
       <label class="label" for="condition-name">Condition Name</label>
-      <input 
-        id="condition-name"
-        type="text" 
-        class="input-field" 
-        placeholder="e.g. Tinnitus, Knee Strain"
-        [ngModel]="newName()"
-        (ngModelChange)="newName.set($event)"
-        (keyup.enter)="addDisability()"
-      >
+      <input id="condition-name" type="text" class="input-field" placeholder="e.g. Tinnitus, Knee Strain"
+        [ngModel]="newName()" (ngModelChange)="newName.set($event)" (keyup.enter)="addDisability()">
+    </div>
+
+    <div class="w-full md:w-24">
+      <label class="label flex items-center gap-1" for="condition-dc">
+        DC 
+        <span class="text-[7px] opacity-90 font-normal italic">(Optional)</span>
+      </label>
+      <input id="condition-dc" type="text" class="input-field font-mono" placeholder="5003" [ngModel]="newDc()"
+        (ngModelChange)="newDc.set($event)" (keyup.enter)="addDisability()">
     </div>
 
     <div class="w-full md:w-32">
       <label class="label" for="rating-select">Rating (%)</label>
-      <select 
-        id="rating-select"
-        class="input-field" 
-        [ngModel]="newRating()"
-        (ngModelChange)="newRating.set(+$event)"
-      >
+      <select id="rating-select" class="input-field" [ngModel]="newRating()" (ngModelChange)="newRating.set(+$event)">
         @for (r of availableRatings; track r) {
-          <option [value]="r">{{ r }}%</option>
+        <option [value]="r">{{ r }}%</option>
         }
       </select>
     </div>
 
     <div class="w-full md:w-48">
       <label class="label" for="extremity-select">Extremity</label>
-      <select 
-        id="extremity-select"
-        class="input-field" 
-        [ngModel]="newExtremity()"
-        (ngModelChange)="newExtremity.set($event)"
-      >
+      <select id="extremity-select" class="input-field" [ngModel]="newExtremity()"
+        (ngModelChange)="newExtremity.set($event)">
         @for (opt of extremityOptions; track opt.value) {
-          <option [value]="opt.value">{{ opt.label }}</option>
+        <option [value]="opt.value">{{ opt.label }}</option>
         }
       </select>
     </div>
 
     <div class="flex items-end">
-      <button 
-        class="btn-primary w-full md:w-auto justify-center"
-        [disabled]="!newName().trim()"
-        (click)="addDisability()"
-        style="height: 42px;"
-      >
+      <button class="btn-primary w-full md:w-auto justify-center" [disabled]="!newName().trim()"
+        (click)="addDisability()" style="height: 42px;">
         <i class="fa-solid fa-plus mr-2"></i>
         Add
       </button>

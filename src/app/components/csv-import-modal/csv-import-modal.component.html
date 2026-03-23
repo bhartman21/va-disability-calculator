@@ -39,8 +39,19 @@
               class="p-3 bg-theme-primary border border-theme-border rounded-lg flex items-center justify-between shadow-sm">
               <div class="flex-1">
                 <p class="font-medium text-sm text-theme-foreground truncate" [title]="item.name">{{ item.name }}</p>
-                <p class="text-xs text-theme-foreground/60 mt-0.5"><i
-                    class="fa-solid fa-hand-dots text-[10px] mr-1"></i>{{ formatExtremity(item.extremity) }}</p>
+                <div class="flex items-center gap-3 mt-0.5">
+                  <p class="text-[10px] text-theme-foreground/60 flex items-center">
+                    <i class="fa-solid fa-hand-dots mr-1"></i>{{ formatExtremity(item.extremity) }}
+                  </p>
+                  @if (item.diagnosticCode) {
+                    <p class="text-[10px] font-mono text-theme-accent font-bold">
+                      DC: {{ item.diagnosticCode }}
+                      @if (item.secondaryDiagnosticCode) {
+                        <span class="opacity-70">[{{ item.secondaryDiagnosticCode }}]</span>
+                      }
+                    </p>
+                  }
+                </div>
               </div>
               <div class="w-12 text-right">
                 <span class="font-mono font-bold text-theme-accent">{{ item.rating }}%</span>

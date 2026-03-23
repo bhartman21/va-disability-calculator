@@ -20,14 +20,16 @@ export class ConditionFormComponent {
   newName = signal('');
   newRating = signal(10);
   newExtremity = signal<Extremity>('none');
+  newDc = signal('');
 
   addDisability() {
     if (!this.newName().trim()) return;
-    this.store.addDisability(this.newName(), this.newRating(), this.newExtremity());
+    this.store.addDisability(this.newName(), this.newRating(), this.newExtremity(), this.newDc());
     
     // Reset defaults but keep standard baseline
     this.newName.set('');
     this.newRating.set(10);
     this.newExtremity.set('none');
+    this.newDc.set('');
   }
 }

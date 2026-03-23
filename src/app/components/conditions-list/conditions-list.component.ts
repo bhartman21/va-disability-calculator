@@ -23,6 +23,7 @@ export class ConditionsListComponent {
   editName = '';
   editRating = 10;
   editExtremity: Disability['extremity'] = 'none';
+  editDc = '';
 
   parsedCsvData = signal<ParsedCsvResult | null>(null);
   csvError = signal<string | null>(null);
@@ -32,6 +33,7 @@ export class ConditionsListComponent {
     this.editName = d.name;
     this.editRating = d.rating;
     this.editExtremity = d.extremity;
+    this.editDc = d.diagnosticCode || '';
   }
 
   saveEdit(d: Disability) {
@@ -40,7 +42,8 @@ export class ConditionsListComponent {
       ...d,
       name: this.editName.trim(),
       rating: Number(this.editRating),
-      extremity: this.editExtremity
+      extremity: this.editExtremity,
+      diagnosticCode: this.editDc.trim() || undefined
     });
     this.editingId.set(null);
   }

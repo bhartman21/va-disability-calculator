@@ -19,6 +19,8 @@ The application has recently completed a massive UI refactoring, migrating from 
 - [x] **Responsive Compact Layout**: The dashboard smoothly scales to mobile sizing utilizing conditional flex-layout logic, and the "Service Connected Conditions" list shrinks to fit into the column constraints gracefully.
 - [x] **In-line Editing**: Users can quickly modify name, percentage, or extremity within the main list, and the calculation dynamically reacts.
 - [x] **Visual "Math Flow" Algorithm**: A custom dynamic diagram traces exactly how the percentage cascades down from 100%, taking the mystery out of the math for Veterans.
+- [x] **Thematic Infrastructure**: Custom CSS variable system for consistent light/dark theme contrast across all components.
+- [x] **Diagnostic Code (DC) Integration**: Automated extraction of `Diagnostic Type Code` and `hyph_diagnostic_type_code` (analogous DC) from VABD CSV exports, with support for manual entry and display.
 
 ## Potential Future Features / Backlog
 - [ ] **Local Storage Persistence**: Automatically save the User's inputted condition values to `localStorage` so they don't lose their data after refreshing or closing the browser.

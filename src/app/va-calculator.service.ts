@@ -37,12 +37,13 @@ export class VaCalculatorService {
   });
 
   // Actions
-  addDisability(name: string, rating: number, extremity: Extremity) {
+  addDisability(name: string, rating: number, extremity: Extremity, diagnosticCode?: string) {
     const newDisability: Disability = {
       id: crypto.randomUUID(),
       name: name.trim(),
       rating,
-      extremity
+      extremity,
+      diagnosticCode: diagnosticCode?.trim() || undefined
     };
     this.disabilities.update(list => [...list, newDisability]);
   }
@@ -50,7 +51,12 @@ export class VaCalculatorService {
   updateDisability(updated: Disability) {
     this.disabilities.update(list => list.map(item => {
       if (item.id === updated.id) {
-        const changed = item.name !== updated.name || item.rating !== updated.rating || item.extremity !== updated.extremity;
+        const changed = 
+          item.name !== updated.name || 
+          item.rating !== updated.rating || 
+          item.extremity !== updated.extremity ||
+          item.diagnosticCode !== updated.diagnosticCode ||
+          item.secondaryDiagnosticCode !== updated.secondaryDiagnosticCode;
         return { ...updated, isModified: changed || item.isModified };
       }
       return item;

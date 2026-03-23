@@ -18,6 +18,8 @@ export function parseCsv(csvContent: string): ParsedCsvResult {
   const textIdx = headers.findIndex(h => h.trim() === 'Diagnostic Text');
   const ratingIdx = headers.findIndex(h => h.trim() === 'Rating Percentage');
   const decisionIdx = headers.findIndex(h => h.trim() === 'Decision');
+  const dcIdx = headers.findIndex(h => h.trim() === 'Diagnostic Type Code');
+  const secondaryDcIdx = headers.findIndex(h => h.trim() === 'hyph_diagnostic_type_code');
 
   if (textIdx === -1 || ratingIdx === -1 || decisionIdx === -1) {
     throw new Error('INVALID_FORMAT');
@@ -31,12 +33,22 @@ export function parseCsv(csvContent: string): ParsedCsvResult {
     const ratingRaw = cols[ratingIdx].trim().replace(/['"]/g, '');
     const rating = parseInt(ratingRaw, 10) || 0;
     const decision = cols[decisionIdx].trim();
+    
+    // Extract DCs if columns exist
+    const diagnosticCode = dcIdx !== -1 ? cols[dcIdx].trim().replace(/['"]/g, '') : undefined;
+    const secondaryDiagnosticCode = secondaryDcIdx !== -1 ? cols[secondaryDcIdx].trim().replace(/['"]/g, '') : undefined;
 
     if (decision.toLowerCase().includes('not service connected')) {
       result.notServiceConnected.push({ name, rating, reason: decision });
     } else {
       const extremity = determineExtremity(name);
-      result.serviceConnected.push({ name, rating, extremity });
+      result.serviceConnected.push({ 
+        name, 
+        rating, 
+        extremity, 
+        diagnosticCode: diagnosticCode || undefined,
+        secondaryDiagnosticCode: secondaryDiagnosticCode || undefined
+      });
     }
   }
 
