@@ -1,31 +1,34 @@
-<header class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-zinc-100/50 mb-2">
-  <div>
+<header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-zinc-100/50 mb-1 whitespace-nowrap overflow-hidden">
+  <div class="flex flex-col justify-end">
     <div class="flex items-center gap-2 text-zinc-500 mb-2">
       <i class="fa-solid fa-user-shield text-xs"></i>
       <span class="text-xs font-bold uppercase tracking-widest">Official Logic</span>
     </div>
-    <div class="flex items-center gap-4">
-      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
-        VA Disability <span class="text-zinc-400 font-light italic">Calculator</span>
-      </h1>
-      <button 
-        (click)="store.toggleThemePicker()"
-        class="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary/10 hover:bg-theme-primary/20 text-theme-primary transition-colors border border-theme-border/20 shadow-sm group"
-        title="Change Branch Theme"
-      >
-        <i class="fa-solid fa-palette group-hover:text-theme-accent transition-colors"></i>
-      </button>
-    </div>
+    <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 leading-none">
+      VA Disability <span class="text-zinc-400 font-light italic">Calculator</span>
+    </h1>
   </div>
-  <div class="text-right flex flex-col items-end">
-    <button 
-      (click)="store.toggleThemePicker()"
-      class="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary/10 text-theme-primary mb-4 border border-theme-border/20"
-    >
-      <i class="fa-solid fa-palette"></i>
+
+  <div class="flex items-center justify-end gap-3 md:gap-4 md:mb-1">
+    <!-- Buy Me A Coffee (Desktop + Mobile fallback) -->
+    <a href="https://www.buymeacoffee.com/bhartman21" target="_blank"
+      class="transition-transform hover:scale-105 active:scale-95">
+      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee"
+        style="height: 35px !important; width: 127px !important;" class="rounded-lg shadow-sm">
+    </a>
+
+    <!-- Theme Selection -->
+    <button (click)="store.toggleThemePicker()"
+      class="flex items-center justify-center w-10 h-10 rounded-full bg-theme-primary/10 hover:bg-theme-primary/20 text-theme-primary transition-colors border border-theme-border/20 shadow-sm group"
+      title="Change Branch Theme">
+      <i class="fa-solid fa-palette group-hover:text-theme-accent transition-colors"></i>
     </button>
-    <p class="text-sm text-zinc-500 max-w-xs">
-      Calculates combined ratings based on the VA's "Whole Person Theory" and 38 CFR 4.25/4.26.
-    </p>
   </div>
 </header>
+
+<div class="text-center max-w-4xl mx-auto px-2 py-1 pb-5">
+  <p class="text-xs sm:text-sm md:text-base text-zinc-500 leading-relaxed font-light italic">
+    Calculates combined ratings based on the VA's <span class="text-theme-primary font-bold not-italic">"Whole Person
+      Theory"</span> and 38 CFR 4.25/4.26.
+  </p>
+</div>
