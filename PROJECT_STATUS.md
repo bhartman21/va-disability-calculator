@@ -21,10 +21,12 @@ The application has recently completed a massive UI refactoring, migrating from 
 - [x] **Visual "Math Flow" Algorithm**: A custom dynamic diagram traces exactly how the percentage cascades down from 100%, taking the mystery out of the math for Veterans.
 - [x] **Thematic Infrastructure**: Custom CSS variable system for consistent light/dark theme contrast across all components.
 - [x] **Diagnostic Code (DC) Integration**: Automated extraction of `Diagnostic Type Code` and `hyph_diagnostic_type_code` (analogous DC) from VABD CSV exports, with support for manual entry and display.
+- [x] **Header & Title Refactoring**: Cleaned up accessibility issues, ensured responsiveness of the title, and refactored the "Buy Me A Coffee" link to use theme tokens instead of inline styles.
 
 ## Potential Future Features / Backlog
 - [ ] **Local Storage Persistence**: Automatically save the User's inputted condition values to `localStorage` so they don't lose their data after refreshing or closing the browser.
 - [ ] **Multiple Scenario Testing**: Ability to save an existing combined profile to memory, so the user can freely compare "Current Rating" vs "Proposed Re-Evaluation rating" scenarios.
 - [ ] **Strict Amputation Rules (38 CFR § 4.68)**: Adding an elegant warning or cap limit enforcing that a specific extremity’s combined ratings cannot mathematically exceed the amputation rating for that limb.
 - [ ] **Share / Export feature**: Allow the final conditions list and rating sheet to easily export to a nicely formatted PDF or a copyable snapshot to bring to a VSO representation.
-- [ ] **Special Monthly Compensation (SMC) Checkbox Guides**: (Advanced) Allowing complex checks for SMC (like Loss of Use, Housebound) and adjusting compensation markers accordingly.
+- [ ] **Disability Amount Scale (10% - 100%)**: Implement a modal or worksheet to display the current compensation rates based on dependency status (Married, Single, Dependents, etc.).
+- [ ] **Special Monthly Compensation (SMC) Guides**: Include a comprehensive list of SMC amounts and criteria, potentially using a wizard-style interface to determine eligibility.
